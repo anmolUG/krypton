@@ -63,6 +63,6 @@ visualization:
 
 # --- Database (MongoDB) ---
 mongodb:
-  uri: "REPLACE_WITH_YOUR_MONGODB_URI"
-  db_name: "classroom_analytics"
+  uri: "REPLACE_WITH_YOUR_MONGODB_URI" # Use environment variables in production
+  db_name: "mongo"
   use_gridfs: true                         # Efficiently store images/videos
