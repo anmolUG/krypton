@@ -2,7 +2,7 @@
 
 A high-performance attendance tracking system utilizing deep learning for face detection, recognition, and analytics.
 
-## 🚀 Features
+## Features
 - **Face Recognition**: Powered by InsightFace (Buffalo_L) for high accuracy.
 - **Analytics Dashboard**: Real-time insights into student attendance and engagement.
 - **Scalable Backend**: Python-based processing with MongoDB for persistent storage.
@@ -10,14 +10,14 @@ A high-performance attendance tracking system utilizing deep learning for face d
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 - **Backend**: Python 3.10+, FastAPI/Gradio, OpenCV, ONNX Runtime, Faiss.
 - **Frontend**: Next.js (TypeScript), Tailwind CSS.
 - **Database**: MongoDB.
 
 ---
 
-## 📋 Setup Instructions
+## Setup Instructions
 
 ### 1. Prerequisites
 - Python 3.10 or higher.
@@ -58,10 +58,9 @@ You can use the provided `run.bat` (Windows) to start the backend application qu
 
 ---
 
-## 🔒 Security
+##  Security
 Before pushing to production/public, ensure that:
 1. `.env` and `.env.local` are in your `.gitignore`.
 2. No API keys or database connection strings are hardcoded in the source.
 
-## 📜 License
-[MIT](LICENSE)
+
