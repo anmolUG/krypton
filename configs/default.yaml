@@ -1,0 +1,68 @@
+# ============================================================
+# Classroom Attendance System — Default Configuration
+# ============================================================
+
+# --- Paths ---
+paths:
+  enrollment_dir: "data/enrollment"        # Per-student subfolders with reference images
+  gallery_dir: "data/gallery"              # Precomputed gallery (FAISS index + metadata)
+  test_images_dir: "data/test_images"      # Classroom photos for evaluation
+  output_dir: "data/output"                # Annotated images and attendance JSON
+
+# --- Detection (RetinaFace / SCRFD via InsightFace) ---
+detection:
+  model_name: "buffalo_l"                  # InsightFace model pack (includes det + rec)
+  det_thresh: 0.5                          # Minimum detection confidence
+  nms_thresh: 0.4                          # NMS IoU threshold
+  input_size: [640, 640]                   # Detector input size (InsightFace default)
+  min_face_size: 20                        # Discard detections < this many pixels wide
+
+# --- Alignment ---
+alignment:
+  output_size: [112, 112]                  # Canonical aligned face chip size
+  # Standard InsightFace 5-point reference landmarks (112x112)
+  reference_landmarks:
+    - [38.2946, 51.6963]   # left eye
+    - [73.5318, 51.5014]   # right eye
+    - [56.0252, 71.7366]   # nose
+    - [41.5493, 92.3655]   # left mouth corner
+    - [70.7299, 92.2041]   # right mouth corner
+
+# --- Embedding (ArcFace) ---
+embedding:
+  embedding_dim: 512                       # ArcFace output dimension
+  batch_size: 64                           # Batch size for embedding extraction
+
+# --- Matching ---
+matching:
+  tau_high: 0.45                           # High-confidence identification threshold
+  tau_low: 0.30                            # Low-confidence / tentative threshold
+  ambiguity_margin: 0.05                   # Flag if |top1 - top2| < this value
+  top_k: 3                                 # Number of gallery candidates to retrieve
+
+# --- Localization ---
+localization:
+  num_rows: 5                              # Estimated number of seating rows (auto or manual)
+  auto_detect_rows: true                   # Use k-means to auto-detect row count
+
+# --- Preprocessing ---
+preprocessing:
+  apply_clahe: true                        # Apply CLAHE for lighting normalization
+  clahe_clip_limit: 2.0
+  clahe_grid_size: [8, 8]
+  max_image_dim: 1920                      # Resize longest edge if image exceeds this
+
+# --- Visualization ---
+visualization:
+  bbox_thickness: 2
+  font_scale: 0.5
+  colors:
+    high_confidence: [0, 255, 0]           # Green (BGR)
+    tentative: [0, 255, 255]               # Yellow (BGR)
+    unknown: [0, 0, 255]                   # Red (BGR)
+
+# --- Database (MongoDB) ---
+mongodb:
+  uri: "REPLACE_WITH_YOUR_MONGODB_URI"
+  db_name: "classroom_analytics"
+  use_gridfs: true                         # Efficiently store images/videos
