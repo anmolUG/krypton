@@ -1,8 +1,11 @@
-# Use an official Python runtime as a parent image
-FROM python:3.11-slim
+# Use a full Python image to ensure better compatibility with OpenCV/ONNX
+FROM python:3.11-bookworm
 
-# Install system dependencies for OpenCV and ONNX
-RUN apt-get update && apt-get install -y \
+# Prevent interactive prompts during build
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Install system dependencies for OpenCV with a retry logic
+RUN apt-get update || (sleep 5 && apt-get update) && apt-get install -y \
     libgl1-mesa-glx \
     libglib2.0-0 \
     && rm -rf /var/lib/apt/lists/*
