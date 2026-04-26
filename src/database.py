@@ -17,9 +17,18 @@ class MongoManager:
     """Manages MongoDB connection and GridFS image storage."""
 
     def __init__(self, config: dict):
+        import os
         self.config = config.get("mongodb", {})
-        self.uri = self.config.get("uri", "mongodb://localhost:27017/")
-        self.db_name = self.config.get("db_name", "classroom_analytics")
+        
+        # Prioritize environment variables, then YAML config, then default
+        self.uri = os.getenv("MONGODB_URI") or self.config.get("uri") or "mongodb://localhost:27017/"
+        self.db_name = os.getenv("DB_NAME") or self.config.get("db_name") or "classroom_analytics"
+        
+        # Sanitize URI if it's the placeholder string
+        if self.uri == "REPLACE_WITH_YOUR_MONGODB_URI":
+            self.uri = "mongodb://localhost:27017/"
+            
+        print(f"[INFO] Connecting to MongoDB at: {self.uri.split('@')[-1] if '@' in self.uri else self.uri}")
         
         # Connection
         self.client = MongoClient(self.uri)

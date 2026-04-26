@@ -1,0 +1,33 @@
+services:
+  # Python Backend
+  - type: web
+    name: classroom-backend
+    env: docker
+    plan: free
+    region: oregon
+    envVars:
+      - key: MONGODB_URI
+        sync: false # Set manually in Render UI
+      - key: DB_NAME
+        value: mongo
+
+  # Next.js Frontend
+  - type: web
+    name: classroom-frontend
+    env: node
+    plan: free
+    region: oregon
+    buildCommand: cd web && npm install && npm run build
+    startCommand: cd web && npm run start
+    envVars:
+      - key: MONGODB_URI
+        sync: false # Set manually in Render UI
+      - key: NEXT_PUBLIC_API_URL
+        fromService:
+          name: classroom-backend
+          type: web
+          property: host
+      - key: NEXTAUTH_SECRET
+        generateValue: true
+      - key: NEXTAUTH_URL
+        value: https://classroom-frontend.onrender.com # Update with your actual URL after deployment

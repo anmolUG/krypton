@@ -1,7 +1,12 @@
+from dotenv import load_dotenv
+# Load environment variables from .env before any other imports
+load_dotenv()
+
 import io
 import cv2
 import base64
 import numpy as np
+import os
 from typing import List, Optional
 from fastapi import FastAPI, File, UploadFile, Form, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
