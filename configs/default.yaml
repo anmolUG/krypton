@@ -61,7 +61,7 @@ visualization:
     tentative: [0, 255, 255]               # Yellow (BGR)
     unknown: [0, 0, 255]                   # Red (BGR)
 
-# --- Database (MongoDB) ---
+# --- Database (MongoDB) --
 mongodb:
   uri: "REPLACE_WITH_YOUR_MONGODB_URI" # Use environment variables in production
   db_name: "mongo"
