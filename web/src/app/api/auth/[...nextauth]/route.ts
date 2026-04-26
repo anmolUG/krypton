@@ -1,6 +1,9 @@
 import NextAuth from "next-auth";
+import type { Session } from "next-auth";
+import type { JWT } from "next-auth/jwt";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
+import clientPromise from "../../../../lib/mongodb";
 
 export const authOptions = {
   providers: [
@@ -20,7 +23,7 @@ export const authOptions = {
         }
 
         try {
-          const client = await import("@/lib/mongodb").then(m => m.default);
+          const client = await clientPromise;
           const db = client.db();
           
           const user = await db.collection("users").findOne({ email: credentials.email });
@@ -52,7 +55,7 @@ export const authOptions = {
     signIn: "/login",
   },
   callbacks: {
-    async session({ session, token }) {
+    async session({ session, token }: { session: Session; token: JWT }) {
       return session;
     },
   },
